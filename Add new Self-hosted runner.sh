@@ -1,0 +1,14 @@
+# Create a folder under the drive root
+$ mkdir actions-runner; cd actions-runner# Download the latest runner package
+$ Invoke-WebRequest -Headers @{ 'Authorization' = 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IlBKbmtiUlR0TDdhZlJHc1hiVUdubk9wM1V4cyJ9.eyJuYW1laWQiOiJkZGRkZGRkZC1kZGRkLWRkZGQtZGRkZC1kZGRkZGRkZGRkZGQiLCJzY3AiOiJBY3Rpb25zUnVudGltZS5QYWNrYWdlRG93bmxvYWQiLCJJZGVudGl0eVR5cGVDbGFpbSI6IlN5c3RlbTpTZXJ2aWNlSWRlbnRpdHkiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiJERERERERERC1ERERELUREREQtRERERC1EREREREREREREREQiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3ByaW1hcnlzaWQiOiJkZGRkZGRkZC1kZGRkLWRkZGQtZGRkZC1kZGRkZGRkZGRkZGQiLCJhdWkiOiI2ZmMyZTM0Ny0wNTQ5LTQ1ZGEtODgzNi00NmM5ZWFjOTUwNmIiLCJzaWQiOiIwYzgyNTQ0OS03YzRhLTQ0OTctODExMy1kM2VmNGU0OTc1ODEiLCJpc3MiOiJhdGMtZ2l0aHViLmF6dXJlLmNsb3VkLmJtdyIsImF1ZCI6ImF0Yy1naXRodWIuYXp1cmUuY2xvdWQuYm13L19zZXJ2aWNlcy92c3Rva2VuIiwibmJmIjoxNzExNjExNDc1LCJleHAiOjE3MTE2MTU2NzV9.NTrtknB7Ozyp621EOUiHLCMV2oOSsN45Fc9sMBBgFf9dXsVdakd7Vrjs_q8ShOjxyHoKouQ5dSprYamqGoHF8l7QjZeC_mG62u6bNtpdz5pvCee0VyElv7L1IyEvzQWIq7fQDW3cgktxgQZ5JR0oP4GeEdOB56RxLGyfrBEflP8xsQrobHZhVFCvMMeN1WIQY2Gxx6fWmnAQWUMdfxELfeuSwasX1K8wc4PJoB80E6h7hkIK9r_z1wx9WvNfJno37JZEYEESiGwiUCQiRqVlj6L5ZoauhJqv-sV1hWLeXSSYMlf-gZMngSNADJe7lkIP7pwz31U3GAjWxHCs9Fqf-IWy8lOm1vvT6gQNCXMXO2VYro5AAzXOGc3gVWH6Ba6tYURgDMJZ6Yx9MOFfqNbBF7VsmqgX7_CPZGaqffLl9ejgZWLzM4gnlBuawoR_aCQlAZL3Hze2a_vbunTtqwHa1SuKe8F1rMPUtMuMjnFho3_ymc7aIPOL4EwebT3Jr8OZN1dT23s1r2HmMmgs5ZHLyejJF7rh8g_8L-VAMBhu6Sg7moVPpPPTiguwE5gZZmmeEHlO-JwPY0qxkJe8IcJquR6Db2hhqvqC2Fre3-HBwvDM1DScuj_ENFF-mBV0fhaNyfkhJ7xL-LeMAa61THGsutk-Q9cgyhU67aIFyR6OvAw' } -Uri https://atc-github.azure.cloud.bmw/_services/pipelines/_apis/distributedtask/packagedownload/agent/win-x64/2.309.0 -OutFile actions-runner-win-x64-2.309.0.zip# Optional: Validate the hash
+$ if((Get-FileHash -Path actions-runner-win-x64-2.309.0.zip -Algorithm SHA256).Hash.ToUpper() -ne 'cd1920154e365689130aa1f90258e0da47faecce547d0374475cdd2554dbf09a'.ToUpper()){ throw 'Computed checksum did not match' }# Extract the installer
+$ Add-Type -AssemblyName System.IO.Compression.FileSystem ; [System.IO.Compression.ZipFile]::ExtractToDirectory("$PWD/actions-runner-win-x64-2.309.0.zip", "$PWD")
+
+Configure
+# Create the runner and start the configuration experience
+$ ./config.cmd --url https://atc-github.azure.cloud.bmw/qxz4upw/githubActions-demo --token AAAFGTVSDN6ORUUSM77AMUTGAUXLW# Run it!
+$ ./run.cmd
+
+Using your self-hosted runner
+# Use this YAML in your workflow file for each job
+runs-on: self-hosted
