@@ -29,6 +29,9 @@ jobs:
 
       # creates binary artifatcs files, for representing the built software, documentation, test reports, or any other files that are produced as a result of the pipeline's execution.
       - uses: actions/upload-artifact@master
+        with: 
+          name: webpack artifact
+          path: public/
       
       # Runs a single command using the runners shell
       - name: Run a one-line script
